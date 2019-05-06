@@ -96,6 +96,16 @@ class MF():
         """
         return self.b + self.b_u[:, np.newaxis] + self.b_i[np.newaxis, :] + self.U.dot(self.V.T)
 
+    def replace_nan(self, X_hat):
+        """
+        Replace np.nan of X with the corresponding value of X_hat
+        """
+        X = np.copy(self.X)
+        for i in range(self.num_samples):
+            for j in range(self.num_features):
+                if np.isnan(X[i, j]):
+                    X[i, j] = X_hat[i, j]
+        return X
 
 if __name__ == '__main__':
     X = np.array([
@@ -108,9 +118,12 @@ if __name__ == '__main__':
     # replace 0 with np.nan
     X[X == 0] = np.nan
     print(X)
-#     np.random.seed(1)
-    mf = MF(X, k=2, alpha=0.01, beta=0.1, iterations=100)
+    # np.random.seed(1)
+    mf = MF(X, k=2, alpha=0.1, beta=0.1, iterations=100)
     mf.train()
     X_hat = mf.full_matrix()
+    X_full = mf.replace_nan(X_hat)
+
     print(X_hat)
-    print(X - X_hat)
+    print(X_full)
+    print(X)
