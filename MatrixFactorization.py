@@ -4,8 +4,7 @@ class MF():
 
     def __init__(self, X, k, alpha, beta, iterations):
         """
-        Perform matrix factorization to predict np.nan
-        entries in a matrix.
+        Perform matrix factorization to predict np.nan entries in a matrix.
 
         Arguments
         - X (ndarray)   : sample-feature matrix
@@ -109,7 +108,7 @@ if __name__ == '__main__':
     # replace 0 with np.nan
     X[X == 0] = np.nan
     print(X)
-    np.random.seed(1)
+#     np.random.seed(1)
     mf = MF(X, k=2, alpha=0.01, beta=0.1, iterations=100)
     mf.train()
     X_hat = mf.full_matrix()
