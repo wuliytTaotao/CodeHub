@@ -29,7 +29,7 @@ class MF():
 
         # Initialize the biases
         self.b_u = np.zeros(self.num_samples)
-        self.b_i = np.zeros(self.num_features)
+        self.b_v = np.zeros(self.num_features)
         self.b = np.mean(self.X[np.where(self.not_nan_index)])
         # Create a list of training samples
         self.samples = [
@@ -74,7 +74,7 @@ class MF():
 
             # Update biases
             self.b_u[i] += self.alpha * (2 * e - self.beta * self.b_u[i])
-            self.b_i[j] += self.alpha * (2 * e - self.beta * self.b_i[j])
+            self.b_v[j] += self.alpha * (2 * e - self.beta * self.b_v[j])
 
             # Update factorization matrix U and V
             """
@@ -87,14 +87,14 @@ class MF():
         """
         Get the predicted x of sample i and feature j
         """
-        prediction = self.b + self.b_u[i] + self.b_i[j] + self.U[i, :].dot(self.V[j, :].T)
+        prediction = self.b + self.b_u[i] + self.b_v[j] + self.U[i, :].dot(self.V[j, :].T)
         return prediction
 
     def full_matrix(self):
         """
         Computer the full matrix using the resultant biases, U and V
         """
-        return self.b + self.b_u[:, np.newaxis] + self.b_i[np.newaxis, :] + self.U.dot(self.V.T)
+        return self.b + self.b_u[:, np.newaxis] + self.b_v[np.newaxis, :] + self.U.dot(self.V.T)
 
     def replace_nan(self, X_hat):
         """
