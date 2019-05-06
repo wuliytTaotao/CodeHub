@@ -94,7 +94,7 @@ class MF():
         """
         Computer the full matrix using the resultant biases, U and V
         """
-        return self.b + self.b_u[:,np.newaxis] + self.b_i[np.newaxis:,] + self.U.dot(self.V.T)
+        return self.b + self.b_u[:, np.newaxis] + self.b_i[np.newaxis, :] + self.U.dot(self.V.T)
 
 
 if __name__ == '__main__':
