@@ -44,16 +44,17 @@ class MF():
         for i in range(self.iterations):
             np.random.shuffle(self.samples)
             self.sgd()
-            mse = self.mse()
-            training_process.append((i, mse))
+            # total square error
+            se = self.square_error()
+            training_process.append((i, se))
             if (i+1) % 10 == 0:
-                print("Iteration: %d ; error = %.4f" % (i+1, mse))
+                print("Iteration: %d ; error = %.4f" % (i+1, se))
 
         return training_process
 
-    def mse(self):
+    def square_error(self):
         """
-        A function to compute the total mean square error
+        A function to compute the total square error
         """
         predicted = self.full_matrix()
         error = 0
@@ -61,7 +62,7 @@ class MF():
             for j in range(self.num_features):
                 if self.not_nan_index[i, j]:
                     error += pow(self.X[i, j] - predicted[i, j], 2)
-        return np.sqrt(error)
+        return error
 
     def sgd(self):
         """
